@@ -10,3 +10,4 @@ links de referencias para auxiliar na construção:
 4. https://rheiland.github.io/raytrace/
 5. https://github.com/fegemo/cefet-cg/tree/master/classes/raytracing
 6. https://github.com/michaelmendoza/simple-raytracer/blob/master/src/shape.h
+7.  https://rheiland.github.io/raytrace/
