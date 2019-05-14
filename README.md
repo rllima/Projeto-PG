@@ -8,3 +8,4 @@ links de referencias para auxiliar na construção:
 2. https://www.purplealienplanet.com/node/20
 3. https://gist.github.com/sevko/c3ed2430e96b89dd3177
 4. https://rheiland.github.io/raytrace/
+5. https://github.com/fegemo/cefet-cg/tree/master/classes/raytracing
