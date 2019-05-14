@@ -47,4 +47,13 @@ class Sphere:
             if dist > 0:
                 return dist 
 
+                
+    """
+        Um normal é, em cada ponto da superfície de uma esfera ou de algum outro objeto, um vetor que é perpendicular
+        à superfície e irradia para fora. Precisamos saber isso para que possamos calcular a maneira como um raio
+        reflete uma esfera
+    """    
+    def surface_norm(self, point):
+        return (point - self.origin).normalize()
+
         
