@@ -1,3 +1,4 @@
+import math
 #Como  requisitado na descrição do projeto, para o algoritmo de Ray Tracing, o objeto a ser utilizado
 #deve ser a esfera, definida em termo do raio, e do seu centro
 class Sphere:
