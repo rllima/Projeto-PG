@@ -23,3 +23,9 @@ class Vector:
 
     def __neg__(self):
         return Vector(-self.x, -self.y, -self.z)
+
+    @staticmethod
+    def cross(v0, v1):
+        return Vector(v0.y * v1.z - v0.z * v1.y,
+                      v0.z * v1.x - v0.x * v1.z,
+                      v0.x * v1.y - v0.y * v1.x)
