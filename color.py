@@ -13,7 +13,7 @@ class Color():
     
     def __mult__(self, f):
         #Operador *
-        f type(other).__name__ == 'Color':
+        if type(other).__name__ == 'Color':
             return Color(self.r*other.r, self.g*other.g, self.b*other.b)
         else:
             return Color(self.r*other, self.g*other, self.b*other)
