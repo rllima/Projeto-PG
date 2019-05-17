@@ -16,8 +16,7 @@ class Scene:
 
         for y in range(self.width):
             for x in range(self.height):
-                ray_direction = Vector(x, y) - self.camera.pos
-                ray = Ray(self.camera.pos, ray_direction)
+                ray = self.camera.calcRay(x,y)
                 pixels[x][y] = self.trace_ray(ray)
         return pixels
     

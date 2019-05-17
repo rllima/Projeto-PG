@@ -1,32 +1,45 @@
-import math
-from vector import*
-from ray import*
+from math import *
+from ray import Ray
+from vector import *
 
-class Camera:
-    def __init__(self, pos, target, f, fov, up,yResolution,xResolution):
+class Camera(object):
+    #Essa classe descreve a camera
+    #fov = fieldOfView
+    #pos = posição
+    #target = Ponto de mira
+    #up vetor que aponta direção
+    #dist = distancia
+    #viewWidth = largura da imagem
+    #viewheigth = Altura da imagem
+
+    def __init__(self, pos, target, dist, fov, up, viewheigth, viewWidth):
         self.pos = pos
         self.target = target
-        self.f = f
+        self.dist = dist
         self.fov = fov
         self.up = up
-        self.viewPlaneHalfWidth = math.tan(fov/2.0)
-        aspectRatio = yResolution/xResolution
-        self.viewPlaneHalfHeight  = aspectRatio*self.viewPlaneHalfWidth
+        self.viewheigth = float(viewheigth)
+        self.viewWidth = float(viewWidth)
 
-        look_at = target - pos
-        self.look_at = look_at.norm()
+        self.alpha = (fov / 180 * pi)/2
+        self.height = 2 * tan(self.alpha)
+        self.width = (self.viewWidth/self.viewheigth) * self.height
+        self.f = (self.target - self.pos).norm() #O vetor vai para o centro
+        self.s = (self.f.cross(self.up)).norm() #Eixo X do vetor
+        self.u = self.s.cross(self.f) # Eixo Y do vetor
 
-        self.view_x_axis = Vector.cross(up, look_at) # Vector U 
-        self.view_y_axis = Vector.cross(look_at, self.view_x_axis) #Vector V
+    def calcRay(self, x, y):
+        #Calcula o raio dependendo dos paramentros da camera. x e y. pixels
+        pixeWidth = self.width/(self.viewWidth - 1)
+        pixeHeigth = self.height/(self.viewheigth - 1)
+        xcomp = self.s.scale(x*pixeHeigth - self.width/2)
+        ycomp = self.u.scale(y*pixeHeigth - self.height/2)
 
-        self.viewPlaneBottomLeftPoint = self.target- self.view_y_axis*self.viewPlaneHalfHeight - self.view_x_axis*self.viewPlaneHalfWidth
-        self.xIncVector = (self.view_x_axis*2* self.viewPlaneHalfWidth)/xResolution;
-        self.yIncVector = (self.view_y_axis*2*self.viewPlaneHalfHeight)/yResolution;
-    
-    def makeRay(self, x,y):
-        viewPlanePoint = self.viewPlaneBottomLeftPoint + (self.xIncVector*x) + (self.yIncVector*x)
-        castRay = Vector(0,0,0) - self.pos
-        return Ray(self.pos,castRay)
-        
+        return Ray(self.pos, self.f + xcomp + ycomp)  
 
 
+if __name__=="__main__":
+    c = Camera(Vector(0.0, 0.0, 0.0), Vector(0.0, 0.0, 100.0), 1.0, 90.0, Vector(0, 1, 0), 680, 440)
+    for x in range(5):
+        for y in range(5):
+            print(c.CalcRay(x, y))
