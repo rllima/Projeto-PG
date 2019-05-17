@@ -1,9 +1,11 @@
 
+from vector import *
+
 class Ray(object):
 	#Esta classe representa um raio com uma origem e uma direção
 	def __init__(self, origin, direction):
 		self.origin = origin #ponto
-		self.direction = direction.normalized() #vetor
+		self.direction = direction.norm() #vetor
 	
 	def pointParametro(self, t):
 		#Retorna um ponto neste raio em um determinado parametro t
