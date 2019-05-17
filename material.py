@@ -1,8 +1,7 @@
 class Material:
     
-    def __init__(self, color, alpha,ks,kd,ke):
-        self.color = color
-        self.alpha = alpha
-        self.ks = ks 
-        self.kd = kd
-        self.ke = ke
+ def __init__(self, color, specular=0.5, lambert=1, ambient=0.2):
+    self.color = color
+    self.specular = specular
+    self.lambert = lambert
+    self.ambient = ambient

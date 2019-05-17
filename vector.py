@@ -1,7 +1,8 @@
 from math import sqrt
 class Vector:
-    def __init__(self, x, y, z):
+    def __init__(self, x=0, y=0, z=0):
         (self.x, self.y, self.z) = (x, y, z)
+  
 
     def __mul__(self, other):
         if isinstance(other, Vector):
@@ -17,6 +18,8 @@ class Vector:
 
     def __neg__(self):
         return Vector(-self.x, -self.y, -self.z)
+    def __truediv__(self, other):
+    		return Vector(self.x / other, self.y / other, self.z / other)
 
     def __str__(self):
     		return "Vector({}, {}, {})".format(*self)
@@ -25,6 +28,11 @@ class Vector:
         yield self.x
         yield self.y
         yield self.z
+    def __pow__(self, exp):
+        if exp != 2:
+            raise ValueError("Exponent can only be two")
+        else:
+            return self * self
 
     def dot(self, other):
         return (self.x * other.x) + (self.y * other.y) + (self.z * other.z)
