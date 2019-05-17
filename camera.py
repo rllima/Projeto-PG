@@ -1,5 +1,5 @@
 import math
-from Ray import Ray
+from ray import *
 
 class Camera(object):
     #Essa classe descreve a camera
@@ -20,7 +20,9 @@ class Camera(object):
         self.viewheigth = float(viewheigth)
         self.viewWidth = float(viewWidth)
 
-        self.alfa = (fov / 180 * PI)/2
+        self.alfa = (fov / 180 * pi)/2
+        self.height = 2 * tan(self.alpha)
+        self.width = (self.wRes/self.hRes) * self.height
         self.f = (self.target - self.e).normalized() #O vetor vai para o centro
         self.s = (self.f.cross(self.up)).normalized() #Eixo X do vetor
         self.u = self.s.cross(self.f) # Eixo Y do vetor
