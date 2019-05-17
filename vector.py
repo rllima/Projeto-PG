@@ -1,31 +1,60 @@
-import numpy as np
+from math import sqrt
 class Vector:
     def __init__(self, x, y, z):
         (self.x, self.y, self.z) = (x, y, z)
+
     def __mul__(self, other):
         if isinstance(other, Vector):
-            return self.x * other.x + self.y * other.y + self.z * other.z
+            return self.dot(other)
         else:
             return Vector(self.x * other, self.y * other, self.z * other)
+
     def __add__(self, other):
         return Vector(self.x + other.x, self.y + other.y, self.z + other.z)
+
     def __sub__(self, other):
         return Vector(self.x - other.x, self.y - other.y, self.z - other.z)
+
+    def __neg__(self):
+        return Vector(-self.x, -self.y, -self.z)
+
+    def __str__(self):
+    		return "Vector({}, {}, {})".format(*self)
+
+    def __iter__(self):
+        yield self.x
+        yield self.y
+        yield self.z
+
     def dot(self, other):
         return (self.x * other.x) + (self.y * other.y) + (self.z * other.z)
+
     def norm(self):
-        mag = np.sqrt(abs(self))
-        return self * (1.0 / np.where(mag == 0, 1, mag))
+        mag = self.magnitude()
+        return Vector(self.x/mag, self.y/mag, self.z/mag)
+
     def components(self):
         return (self.x, self.y, self.z)
     def invert(self):
         return Vector(-self.x, -self.y, -self.z)
 
-    def __neg__(self):
-        return Vector(-self.x, -self.y, -self.z)
+    def magnitude(self):
+        return sqrt(self.x**2 + self.y**2 + self.z**2)
 
-    @staticmethod
-    def cross(v0, v1):
-        return Vector(v0.y * v1.z - v0.z * v1.y,
-                      v0.z * v1.x - v0.x * v1.z,
-                      v0.x * v1.y - v0.y * v1.x)
+   
+    def cross(self, other):
+        return Vector(self.y * other.z - self.z * other.y,
+                      self.z * other.x - self.x * other.z,
+                      self.x * other.y - self.y * other.x)
+
+
+if __name__=="__main__":
+    vec1 = Vector(0.25,0.25,0.25)
+    vec2 = Vector(0.25,0.5,0.25)
+    #DOT
+    result_test = vec1 * vec2
+    print(result_test)
+    #CROSS
+    print(vec1.cross(vec2))
+    #NORM - UNIT VECTOR
+    print(vec1.norm())

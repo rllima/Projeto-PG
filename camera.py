@@ -1,5 +1,5 @@
 import math
-from vector import *
+from vector import*
 
 class Camera:
     def __init__(self, pos, target, f, fov, up):
@@ -9,7 +9,7 @@ class Camera:
         self.fov = fov
         self.up = up
         self.view_heigth = 2 * f * math.tan(fov/2.0)
-        self.view_width = self.view_heigth * up
+        self.view_width = up * self.view_heigth
 
         look_at = target - pos
         look_at.norm()
@@ -51,9 +51,9 @@ class Camera:
         return self.view_y_axis
     
 if __name__=="__main__":
-    c = Camera(Vector(0.0, 0.0, 0.0), Vector(0.0, 0.0, 100.0), 1.0, 90.0, 800.0 / 600.0)
-    print(c.getwWidth())
-    print(c.getHeight())
+    c = Camera(Vector(0.0, 0.0, 0.0), Vector(0.0, 0.0, 100.0), 1.0, 90.0, Vector(0.0, 1.0, 0.0))
+    print(c.getWidth())
+    print(c.getHeigth  ())
     print(c.getCenter().x)
     print(c.getCenter().y)
     print(c.getCenter().z)
