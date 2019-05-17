@@ -1,13 +1,7 @@
-class PointLigth():
-    def __init__(self, position, color, intensity=1):
-        self.type = 'Point'
-        self.position = position
-        self.color = color
-        self.intensity = intensity
+from Color import *
 
-class DerectionLigth():
-    def __init__(self, position, color, intensity=1):
-        self.type = 'Directional'
+class Ligth(object):
+    #Descreve a posição e uma cor de uma fonte de luz
+    def __init__(self, position, color = (255, 255, 255,)):
         self.position = position
-        self.color = color
-        self.intensity = intensity
+        self.color = Color(color[0], color[1], color[2])
