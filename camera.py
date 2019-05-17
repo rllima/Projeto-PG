@@ -1,65 +1,35 @@
 import math
-from vector import *
+from Ray import Ray
 
-class Camera:
-    def __init__(self, pos, target, f, fov, up):
+class Camera(object):
+    #Essa classe descreve a camera
+    #fov = fieldOfView
+    #pos = posição
+    #target = Ponto de mira
+    #up vetor que aponta direção
+    #dist = distancia
+    #viewWidth = largura da imagem
+    #viewheigth = Altura da imagem
+
+    def __init__(self, pos, target, dist, fov, up, viewheigth, viewWidth):
         self.pos = pos
         self.target = target
         self.f = f
         self.fov = fov
         self.up = up
-        self.view_heigth = 2 * f * math.tan(fov/2.0)
-        self.view_width = self.view_heigth * up
+        self.viewheigth = float(viewheigth)
+        self.viewWidth = float(viewWidth)
 
-        look_at = target - pos
-        look_at.norm()
-        self.view_center = pos + look_at * f #f = distancia
+        self.alfa = (fov / 180 * PI)/2
+        self.f = (self.target - self.e).normalized() #O vetor vai para o centro
+        self.s = (self.f.cross(self.up)).normalized() #Eixo X do vetor
+        self.u = self.s.cross(self.f) # Eixo Y do vetor
 
-        up = Vector(0.0, 1.0, 0.0)
-        self.view_x_axis = Vector.cross(up, look_at)
-        self.view_y_axis = Vector.cross(look_at, self.view_x_axis)
+    def CalcRay(self, x, y):
+        #Calcula o raio dependendo dos paramentros da camera. x e y. pixels
+        pixeWidth = self.width/(self.viewWidth - 1)
+        pixeHeigth = self.heigth/(self.viewheigth - 1)
+        xcomp = self.s.scale(x*pixeHeigth - self.width/2)
+        ycomp = self.u.scale(y*pixeHeigth - self.heigth/2)
 
-    
-    def getPos(self):
-        return self.pos
-    
-    def getTarget(self):
-        return self.target
-    
-    def getf(self):
-        return self.f
-    
-    def getFov(self):
-        return self.fov
-    
-    def getUp(self):
-        self.up
-    
-    def getWidth(self):
-        return self.view_width
-
-    def getHeigth(self):
-        return self.view_heigth
-    
-    def getCenter(self):
-        return self.view_center
-    
-    def getViewXAxis(self):
-        return self.view_x_axis
-    
-    def getViewYAxis(self):
-        return self.view_y_axis
-    
-if __name__=="__main__":
-    c = Camera(Vector(0.0, 0.0, 0.0), Vector(0.0, 0.0, 100.0), 1.0, 90.0, 800.0 / 600.0)
-    print(c.getwWidth())
-    print(c.getHeight())
-    print(c.getCenter().x)
-    print(c.getCenter().y)
-    print(c.getCenter().z)
-    print(c.getViewXAxis().x)
-    print(c.getViewXAxis().y)
-    print(c.getViewXAxis().z)
-    print(c.getViewYAxis().x)
-    print(c.getViewYAxis().y)
-    print(c.getViewYAxis().z)
+        return Ray(self.e, self.f + xcomp + ycomp)       
