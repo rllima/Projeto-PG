@@ -22,9 +22,10 @@ class Scene:
         return pixels
     
     def trace_ray(self,ray,depth=0, max_depth=5):
-        color = Vector(0,0,0)
         
-
+        color = Vector(0,0,0) # Cor do raio
+        
+        
         if depth >= max_depth:
             return color
 
@@ -33,27 +34,29 @@ class Scene:
             return color
 
         obj, dist = intersection
-        intersection_pt = ray.point_at_dist(dist)
-        surface_norm = obj.surface_norm(intersection_pt)
+        intersection_pt = ray.point_at_dist(dist) #ponto de intersecção
+        surface_norm = obj.surface_norm(intersection_pt) #normal a direção do ponto
 
+
+        #Por enquanto considerando apenas os objetos difusos (sem transparencia)
         for light in self.lights:
             # ambient light
-            color = ((obj.material.color * light.color) * (obj.material.ambient * obj.material.lambert))
+            ambient = (obj.material.color * obj.material.ambient)
+            color += ambient
             # lambert shading - Diffuse
             pt_to_light_vec = (light.pos - intersection_pt).norm()
             pt_to_light_ray = Ray(intersection_pt, pt_to_light_vec)
             if self.get_intersection(pt_to_light_ray) is None:
                 lambert_intensity = surface_norm * pt_to_light_vec
                 if lambert_intensity > 0:
-                    color += obj.material.color * obj.material.lambert * \
-                        lambert_intensity * light.color
+                    lambert = (obj.material.color * ((obj.material.lambert * lambert_intensity)))
+                    color += lambert
         
-            #specular (reflective) light
-            r = ((surface_norm - pt_to_light_vec) * ((pt_to_light_vec * surface_norm)*2))
-            n = 2 #Grau de concentração do destaque especular  N > ponto menor
-            color += obj.material.specular * light.color * ((r * ray.invert)**n)
+        #specular (reflective) light 
+        reflected_ray = Ray(intersection_pt, ray.direction.reflect(surface_norm).norm())
+        color += self.trace_ray(reflected_ray, depth + 1) * obj.material.specular
+       
         return color
-     
 
     def get_intersection(self, ray):
         

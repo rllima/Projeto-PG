@@ -11,21 +11,25 @@ if __name__=="__main__":
 	Color = Vector
 	objects = [
 		Sphere(
-			Point(-8.1, 0, 8.1), 8, Material(Color(0xFF, 0, 0),
+			Point(150, 120, -20), 80, Material(Color(0xFF, 0, 0),
 			specular=0.2)),
-			Sphere(
-			Point(8.1, 0, 8.1), 8, Material(Color(0xFF, 0xFF, 0),
-			specular=0.2)),
-			Sphere(
-			Point(8.1, 15, 10), 8, Material(Color(0, 0xFF, 0),
-			specular=0.2))
+		Sphere(
+			Point(420, 120, 0), 100, Material(Color(0, 0, 0xFF),
+			specular=0.8)),
+		Sphere(Point(320, 240, -40), 50, Material(Color(0, 0xFF, 0))),
+		Sphere(
+			Point(300, 200, 200), 100, Material(Color(0xFF, 0xFF, 0),
+			specular=0.8)),
+		Sphere(Point(300, 130, 100), 40, Material(Color(0xFF, 0, 0xFF))),
+		Sphere(Point(300, 1000, 0), 700, Material(Color(0xFF, 0xFF, 0xFF),
+			lambert=0.5)),
 		]
-	lights = [Light(Point(0, 30, 0), Color(255,255,255))]
-	c_pos = Vector(0,60,-110)
-	c_target = Vector(0,0,0)
-	f=10
-	fov=40
-	up=Vector(0,1,0)
+	lights = [Light(Point(200, -100, 0), Color(0.1,0.3,0.1))]
+	c_pos = Vector(300, 200, 200)
+	c_target = Vector(420, 120, 0)
+	f=1
+	fov=45
+	up=Vector(1,0,0)
 	camera = Camera(c_pos,c_target,f,fov,up,640,480)
 	scene = Scene(camera, objects, lights, 640,480)
 	pixels = scene.render()

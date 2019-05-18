@@ -9,6 +9,9 @@ class Vector:
             return self.dot(other)
         else:
             return Vector(self.x * other, self.y * other, self.z * other)
+    
+    def __rmul__(self, other):
+    	return self.__mul__(other)
 
     def __add__(self, other):
         return Vector(self.x + other.x, self.y + other.y, self.z + other.z)
@@ -57,6 +60,12 @@ class Vector:
     def scale(self, factor):
             return self * factor
 
+    def reflect(self, other):
+        other = other.norm()
+        return (self - 2 * (self * other) * other)
+
+    def pow(self,other):
+        return Vector(pow(self.x,other),pow(self.y,other),pow(self.z,other))
 
 if __name__=="__main__":
     vec1 = Vector(0.25,0.25,0.25)
