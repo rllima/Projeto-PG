@@ -17,7 +17,7 @@ class Camera(object):
     def __init__(self, pos, target, dist, fov, up, viewheigth, viewWidth):
         self.pos = pos
         self.target = target
-        self.dist = dist
+        self.dist = 90
         self.fov = fov
         self.up = up
         self.viewheigth = float(viewheigth)
@@ -37,7 +37,11 @@ class Camera(object):
         xcomp = self.s.scale(x*pixeHeigth - self.width/2)
         ycomp = self.u.scale(y*pixeHeigth - self.height/2)
 
-        return Ray(self.pos, self.f + xcomp + ycomp)  
+        return Ray(self.pos, self.f + xcomp + ycomp) 
+
+    def dist(self, dist):
+        self.d = self.size.x / (2*math.tan((dist / 2.0) / 180.0 * math.pi))
+        return self.d
 
 
 if __name__=="__main__":
