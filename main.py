@@ -4,6 +4,7 @@ from vector import Vector
 from material import Material
 from ray import Ray
 from camera import Camera
+from light import Light
 
 if __name__=="__main__":
 	Point = Vector
@@ -19,7 +20,7 @@ if __name__=="__main__":
 			Point(8.1, 15, 10), 8, Material(Color(0, 0xFF, 0),
 			specular=0.2))
 		]
-	lights = [Point(0, 30, 0)]
+	lights = [Light(Point(0, 30, 0), Color(255,255,255))]
 	c_pos = Vector(0,60,-110)
 	c_target = Vector(0,0,0)
 	f=10
