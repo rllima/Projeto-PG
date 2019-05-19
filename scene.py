@@ -54,7 +54,7 @@ class Scene:
         
         #specular (reflective) light 
         reflected_ray = Ray(intersection_pt, ray.direction.reflect(surface_norm).norm())
-        color += self.trace_ray(reflected_ray, depth + 1) * obj.material.specular
+        color += self.trace_ray(reflected_ray, depth + 1) * obj.material.specular #Traçando raios de reflexão
        
         return color
 

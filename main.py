@@ -11,23 +11,16 @@ if __name__=="__main__":
 	Color = Vector
 	objects = [
 		Sphere(
-			Point(150, 120, -20), 80, Material(Color(0xFF, 0, 0),
-			specular=0.2)),
-		Sphere(
-			Point(420, 120, 0), 100, Material(Color(0, 0, 0xFF),
-			specular=0.8)),
-		Sphere(Point(320, 240, -40), 50, Material(Color(0, 0xFF, 0))),
-		Sphere(
-			Point(300, 200, 200), 100, Material(Color(0xFF, 0xFF, 0),
-			specular=0.8)),
-		Sphere(Point(300, 130, 100), 40, Material(Color(0xFF, 0, 0xFF))),
-		Sphere(Point(300, 1000, 0), 700, Material(Color(0xFF, 0xFF, 0xFF),
-			lambert=0.5)),
+			Point(20, 50, -10), 10, Material(Color(0, 0, 0xFF),
+			specular=0.3)),
+			Sphere(
+			Point(40, 50, -10), 10, Material(Color( 0xFF, 0, 0xFF),
+			specular=0.2, ambient=0.5, lambert=0.8))
 		]
-	lights = [Light(Point(200, -100, 0), Color(0.1,0.3,0.1))]
-	c_pos = Vector(300, 200, 200)
-	c_target = Vector(420, 120, 0)
-	f=1
+	lights = [Light(Point(31, 100, 0), Color(0.1,0.3,0.1))]
+	c_pos = Vector(20, 10, 4)
+	c_target = Vector(30, 50, -10)
+	f = 20
 	fov=45
 	up=Vector(1,0,0)
 	camera = Camera(c_pos,c_target,f,fov,up,640,480)
