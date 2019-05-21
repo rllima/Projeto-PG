@@ -37,26 +37,36 @@ class Scene:
         intersection_pt = ray.point_at_dist(dist) #ponto de intersecção
         surface_norm = obj.surface_norm(intersection_pt) #normal a direção do ponto
 
+        #CALC EFECTS LIGHT
 
-        #Por enquanto considerando apenas os objetos difusos (sem transparencia)
-        for light in self.lights:
-            # ambient light
-            ambient = (obj.material.color * obj.material.ambient)
-            color += ambient
-            # lambert shading - Diffuse
-            pt_to_light_vec = (light.pos - intersection_pt).norm()
-            pt_to_light_ray = Ray(intersection_pt, pt_to_light_vec)
-            if self.get_intersection(pt_to_light_ray) is None:
-                lambert_intensity = surface_norm * pt_to_light_vec
-                if lambert_intensity > 0:
-                    lambert = (obj.material.color * ((obj.material.lambert * lambert_intensity)))
-                    color += lambert
         
-        #specular (reflective) light 
-        reflected_ray = Ray(intersection_pt, ray.direction.reflect(surface_norm).norm())
-        color += self.trace_ray(reflected_ray, depth + 1) * obj.material.specular #Traçando raios de reflexão
-       
-        return color
+        if(obj.material.material_type == "REFLECT_AND_REFRACTION"):
+            kr = ray.direction.fresnel(surface_norm,obj.material.kt,obj.material.kr)
+            reflected_ray = Ray(intersection_pt, ray.direction.reflect(surface_norm).norm())
+            color += self.trace_ray(reflected_ray, depth + 1) * kr #Traçando raios de reflexão
+            refraction_ray = Ray(intersection_pt, ray.direction.refract(surface_norm,obj.material.kt).norm())
+
+            color+=self.trace_ray(refraction_ray,depth + 1) * (1 -kr )
+            return color
+        else:
+            #Por enquanto considerando apenas os objetos difusos (sem transparencia)
+            for light in self.lights:
+                # ambient light
+                ambient = (obj.material.color * obj.material.ambient)
+                color += ambient
+                # lambert shading - Diffuse
+                pt_to_light_vec = (light.pos - intersection_pt).norm()
+                pt_to_light_ray = Ray(intersection_pt, pt_to_light_vec)
+                if self.get_intersection(pt_to_light_ray) is None:
+                    lambert_intensity = surface_norm * pt_to_light_vec
+                    if lambert_intensity > 0:
+                        lambert = (obj.material.color * ((obj.material.lambert * lambert_intensity)))
+                        color += lambert
+            
+            #specular (reflective) light 
+            reflected_ray = Ray(intersection_pt, ray.direction.reflect(surface_norm).norm())
+            color += self.trace_ray(reflected_ray, depth + 1) * obj.material.specular #Traçando raios de reflexão
+            return color
 
     def get_intersection(self, ray):
         
@@ -76,6 +86,13 @@ class Scene:
                 " ".join([str(int(color)) for color in pixel]) for pixel in row]
             img_data_rows.append(" ".join(pixel_strs))
         return header + "\n".join(img_data_rows)
+    
+
+    
+            
+
+
+ 
 
 
 

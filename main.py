@@ -11,15 +11,15 @@ if __name__=="__main__":
 	Color = Vector
 	objects = [
 		Sphere(
-			Point(20, 50, -10), 10, Material(Color(0, 0, 0xFF),
-			specular=0.3)),
+			Point(10, 30, -10), 4, Material(Color(0, 0, 0xFF),
+			specular=0.3,material_type="REFLECT_AND_REFRACTION", kt=0.5, kr=1.5)),
 			Sphere(
-			Point(40, 50, -10), 10, Material(Color( 0xFF, 0, 0xFF),
-			specular=0.2, ambient=0.5, lambert=0.8))
+			Point(20, 30, -50), 20, Material(Color( 0xFF, 0, 0xFF),
+			specular=0.0, ambient=0.5, lambert=0.8))
 		]
-	lights = [Light(Point(31, 100, 0), Color(0.1,0.3,0.1))]
-	c_pos = Vector(20, 10, 4)
-	c_target = Vector(30, 50, -10)
+	lights = [Light(Point(10, 30, -1), Color(0.1,0.3,0.1))]
+	c_pos = Vector(20, 30, 4)
+	c_target = Vector(20, 50, -10)
 	f = 20
 	fov=45
 	up=Vector(1,0,0)

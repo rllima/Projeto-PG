@@ -1,4 +1,5 @@
 from math import sqrt
+from math import fabs
 class Vector:
     def __init__(self, x=0, y=0, z=0):
         (self.x, self.y, self.z) = (x, y, z)
@@ -63,7 +64,37 @@ class Vector:
     def reflect(self, other):
         other = other.norm()
         return (self - 2 * (self * other) * other)
-
+    def clamp(self,lo,hi,v):
+       return max(lo,min(hi,v))
+    def refract(self,other, ior):
+            cosi = self.clamp(1,-1, self * other)
+            etai = 1
+            if (cosi < 0 ): cosi = -cosi
+            else:
+                etai,ior = ior,etai
+                other = -other
+            eta = etai/ior
+            k = 1 - eta * eta * (1-cosi * cosi)
+            if k < 0: return 0
+            else: return eta * self + (eta * cosi - sqrt(k)) * other
+    def fresnel(self,other,ior,kr):
+        cosi = self.clamp(1,-1, self * other)
+        etai = 1
+        if (cosi < 0 ): cosi = -cosi
+        else:
+            etai,ior = ior,etai
+            other = -other
+        sint = etai/ior * sqrt(max(0,-1 - cosi * cosi))
+        if sint >=1: 
+            kr = 1
+            return kr
+        else:
+            cost = sqrt(max(0,1-sint * sint))
+            cosi = fabs(cosi)
+            rs = ((ior * cosi) - (etai * cost))/ ((ior * cosi) + (etai * cost))
+            rp = ((etai * cosi) - (ior * cost))/ ((etai * cosi) + (ior * cost))
+            kr = (rs * rs + rp * rp)/2
+            return kr
     def pow(self,other):
         return Vector(pow(self.x,other),pow(self.y,other),pow(self.z,other))
 
