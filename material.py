@@ -5,4 +5,3 @@ class Material:
     self.specular = specular #ks
     self.lambert = lambert #kd
     self.ambient = ambient #ka
-
