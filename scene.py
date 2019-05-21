@@ -76,6 +76,7 @@ class Scene:
                 " ".join([str(int(color)) for color in pixel]) for pixel in row]
             img_data_rows.append(" ".join(pixel_strs))
         return header + "\n".join(img_data_rows)
+        
 
 
 
