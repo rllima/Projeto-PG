@@ -12,3 +12,5 @@ links de referencias para auxiliar na construção:
 6. https://github.com/michaelmendoza/simple-raytracer/blob/master/src/shape.h
 7. https://rheiland.github.io/raytrace/
 8. https://steveharveynz.wordpress.com/2012/12/20/ray-tracer-part-two-creating-the-camera/
+9. camera opengl - https://learnopengl.com/Getting-started/Camera
+10. relatorio simples sobre o ray tracer - http://webserver2.tecgraf.puc-rio.br/~mgattass/cg/trbRR/RelatorioMaira.pdf
