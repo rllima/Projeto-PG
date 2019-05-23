@@ -1,4 +1,3 @@
-
 from vector import *
 
 class Ray(object):

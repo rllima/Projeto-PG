@@ -1,7 +1,5 @@
-#!/usr/bin/env python3.2
-
 from math import *
-from ray import *
+from ray import Ray
 from vector import *
 
 class Camera(object):
@@ -14,39 +12,35 @@ class Camera(object):
     #viewWidth = largura da imagem
     #viewheigth = Altura da imagem
 
-    def __init__(self, pos, target, dist, fov, up, viewheigth, viewWidth):
+    def __init__(self, pos, target, dist, fov, up, view_height, view_width):
         self.pos = pos
         self.target = target
-        self.dist = 90
+        self.dist = dist
         self.fov = fov
         self.up = up
-        self.viewheigth = float(viewheigth)
-        self.viewWidth = float(viewWidth)
+        self.view_height = view_height
+        self.view_width = view_width
+        self.cam_calc()
+        
 
-        self.alpha = (fov / 180 * pi)/2 
-        self.height = 2 * tan(self.alpha) #angulo de abertura da camera
-        self.width = (self.viewWidth/self.viewheigth) * self.height
-        self.f = (self.target - self.pos).norm() #O vetor vai para o centro/ vetor de direção da camera (precisa inverter??)
-        self.s = (self.f.cross(self.up)).norm() #Eixo X do vetor positivo do espaço da camera
-        self.u = self.s.cross(self.f) # Eixo Y do vetor 
-
-    def CalcRay(self, x, y):
+    def calcRay(self, x, y):
         #Calcula o raio dependendo dos paramentros da camera. x e y. pixels
-        pixeWidth = self.width/(self.viewWidth - 1)
-        pixeHeigth = self.height/(self.viewheigth - 1)
-        xcomp = self.s.scale(x*pixeHeigth - self.width/2)
-        ycomp = self.u.scale(y*pixeHeigth - self.height/2)
+        pixelWidth = self.width / self.view_width
+        pixelHeight = self.height / self.view_height
+        xcomp = self.s * (x * pixelWidth - self.width / 2)
+        ycomp = self.u * (y * pixelHeight - self.height / 2)
+        return Ray(self.pos, (self.f + xcomp + ycomp).norm())
+  
+    def cam_calc(self):
+        self.pos = Vector(self.pos.x, self.pos.y,self.pos.z * self.dist)
+        self.up = self.up.norm()
+        self.f = (self.target - self.pos).norm() #O vetor vai para o centro/ vetor de direção da camera normalizado 
+        self.s = self.f.cross(self.up).norm() #Eixo X do vetor positivo do espaço da camera
+        self.u = self.s.cross(self.f) # Eixo Y do vetor 
+        self.alpha = ((self.fov/180) * pi)/2
+        self.height = 2 * tan(self.alpha) #angulo de abertura da camera
+        self.width = (self.view_width/self.view_height) * self.height
 
-        return Ray(self.pos, self.f + xcomp + ycomp) 
-
-    def dist(self, dist):
-        self.d = self.size.x / (2*math.tan((dist / 2.0) / 180.0 * math.pi))
-        return self.d
+        
 
 
-if __name__=="__main__":
-    c = Camera(Vector(0.0, 0.0, 0.0), Vector(0.0, 0.0, 100.0), 1.0, 90.0, Vector(0, 1, 0), 680, 440)
-    for x in range(5):
-        for y in range(5):
-            print(c.CalcRay(x, y))
-   

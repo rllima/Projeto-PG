@@ -2,14 +2,15 @@ import math
 #Como  requisitado na descrição do projeto, para o algoritmo de Ray Tracing, o objeto a ser utilizado
 #deve ser a esfera, definida em termo do raio, e do seu centro
 class Sphere:
-    def __init__(self,origin,radius):
+    def __init__(self,origin,radius, material):
         self.origin = origin
         self.radius = radius
+        self.material = material
 
     #Decidimos tornar o calculo de intersecção dentro do prorio objeto, facilitando a modularidade, pois para cada
     #forma, teremos um modo de calculo diferente de intersectção
 
-    def intersec(self, ray):
+    def intersects(self, ray):
 
         """
             Se o raio(aqui se referindo ao raio camera -> objeto), intersecta a esfera 
@@ -34,4 +35,4 @@ class Sphere:
         reflete uma esfera
     """    
     def surface_norm(self, point):
-        return (point - self.origin).normalize()
+        return (point - self.origin).norm()
