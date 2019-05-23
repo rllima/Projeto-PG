@@ -58,6 +58,7 @@ class Vector:
         return Vector(self.y * other.z - self.z * other.y,
                       self.z * other.x - self.x * other.z,
                       self.x * other.y - self.y * other.x)
+
     def scale(self, factor):
             return self * factor
 
@@ -110,3 +111,4 @@ if __name__=="__main__":
     print(vec1.cross(vec2))
     #NORM - UNIT VECTOR
     print(vec1.norm())
+
