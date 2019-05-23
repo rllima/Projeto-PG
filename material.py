@@ -1,6 +1,6 @@
 class Material:
     
- def __init__(self, color,specular=0.5, lambert=1, ambient=0.2, material_type="DIFFUSE",kr=0,kt=0):
+ def __init__(self, color,specular=0.5, lambert=1, ambient=0.2, material_type="DIFFUSE",kr=1.5,kt=0.1):
     self.color = color
     self.specular = specular #ks
     self.lambert = lambert #kd

@@ -67,18 +67,20 @@ class Vector:
     def clamp(self,lo,hi,v):
        return max(lo,min(hi,v))
     def refract(self,other, ior):
-            cosi = self.clamp(1,-1, self * other)
-            etai = 1
-            if (cosi < 0 ): cosi = -cosi
+            cosi = self.clamp(-1,1, self * other)
+            etai = 1 #Indice de Refração do meio. Deixamos como padrão 1 (AR)
+            n = other #Normal
+            if (cosi < 0 ): 
+                cosi = -cosi
             else:
                 etai,ior = ior,etai
-                other = -other
+                n = -other
             eta = etai/ior
             k = 1 - eta * eta * (1-cosi * cosi)
             if k < 0: return 0
-            else: return eta * self + (eta * cosi - sqrt(k)) * other
+            else: return eta * self + (eta * cosi - sqrt(k)) * n
     def fresnel(self,other,ior,kr):
-        cosi = self.clamp(1,-1, self * other)
+        cosi = self.clamp(-1,1, self * other)
         etai = 1
         if (cosi < 0 ): cosi = -cosi
         else:
