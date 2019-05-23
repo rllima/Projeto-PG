@@ -11,9 +11,9 @@ if __name__=="__main__":
 	Point = Vector
 	Color = Vector
 	objects = [
-		Sphere(Point(20, 69, -70), 10, Material(Color(0, 0xFF, 0xFF),specular=0.5,material_type="REFLECT")),
+		Sphere(Point(40, 69, -50), 10, Material(Color(0, 0xFF, 0xFF),specular=0.5,material_type="REFLECT")),
 		Sphere(Point(5, 55, -10), 4, Material(Color(0, 0, 0xFF),specular=0.3,material_type="REFLECT")),
-		Sphere(Point(20, 60, -30), 20, Material(Color( 0xFF, 0, 0xFF),specular=0.6, ambient=0.5, lambert=0.8,material_type="REFLECT_AND_REFRACTION")),
+		Sphere(Point(20, 60, -30), 20, Material(Color( 0xFF, 0, 0xFF),specular=0.2, ambient=0.5,kr=1.9, lambert=0.8,material_type="REFLECT_AND_REFRACTION")),
 		Plane(Point(0, 0, 0), Point(0, 30,10), Material(Color(128, 128, 128),specular=0.3, ambient=0.5, lambert=0.01))
 	]
 

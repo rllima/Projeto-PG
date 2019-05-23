@@ -21,7 +21,7 @@ class Scene:
                 pixels[x][y] = self.trace_ray(ray)
         return pixels
     
-    def trace_ray(self,ray,depth=0, max_depth=15):
+    def trace_ray(self,ray,depth=0, max_depth=10):
         
         color = Vector(0,0,0) # Cor do raio
         
@@ -36,7 +36,7 @@ class Scene:
         obj, dist = intersection
         intersection_pt = ray.point_at_dist(dist) #ponto de intersecção
         surface_norm = obj.surface_norm(intersection_pt) #normal a direção do ponto
-        bias = 0.000001
+        bias = 0.0001
         #CALC EFECTS LIGHT
 
         
@@ -62,7 +62,7 @@ class Scene:
             refraction_ray = Ray(refra_origin, refraction_dir)
             color += self.trace_ray(reflected_ray, depth + 1) * kr #Traçando raios de reflexão
             color+=self.trace_ray(refraction_ray,depth + 1) * (1- kr)
-            color+= obj.material.color * obj.material.kt
+            #color+= obj.material.color * obj.material.kt
             return color
         elif obj.material.material_type =="REFLECT":
             reflect_dir = ray.direction.reflect(surface_norm).norm()
