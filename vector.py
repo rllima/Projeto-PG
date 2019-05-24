@@ -67,39 +67,48 @@ class Vector:
         return (self - 2 * (self * other) * other)
     def clamp(self,lo,hi,v):
        return max(lo,min(hi,v))
+
     def refract(self,other, ior):
+            #self = direção do ray de indiencia
             cosi = self.clamp(-1,1, self * other)
             etai = 1 #Indice de Refração do meio. Deixamos como padrão 1 (AR)
+            etat = ior
             n = other #Normal
             if (cosi < 0 ): 
                 cosi = -cosi
             else:
                 etai,ior = ior,etai
-                n = -other
-            eta = etai/ior
-            k = 1 - eta * eta * (1-cosi * cosi)
-            if k < 0: return 0
-            else: return eta * self + (eta * cosi - sqrt(k)) * n
-    def fresnel(self,other,ior,kr):
-        cosi = self.clamp(-1,1, self * other)
+                n = n.invert()
+            eta = float(etai/ior)
+            k = float(1 - eta**2 * (1-cosi**2))
+            if k < 0: 
+                return 0
+            else: 
+                return eta * self + (eta * cosi - sqrt(k)) * n
+                
+    def fresnel(self,normal,ior):
+        cosi = self.clamp(-1,1, self * normal)
         etai = 1
+        etat = ior
         if (cosi < 0 ): cosi = -cosi
         else:
-            etai,ior = ior,etai
-            other = -other
-        sint = etai/ior * sqrt(max(0,-1 - cosi * cosi))
+            etai,etat = etat,etai
+            normal = normal.invert()
+        sint = etai/etat * sqrt(max(0,-1 - cosi * cosi))
         if sint >=1: 
             kr = 1
             return kr
         else:
             cost = sqrt(max(0,1-sint * sint))
             cosi = fabs(cosi)
-            rs = ((ior * cosi) - (etai * cost))/ ((ior * cosi) + (etai * cost))
-            rp = ((etai * cosi) - (ior * cost))/ ((etai * cosi) + (ior * cost))
+            rs = ((etat * cosi) - (etai * cost))/ ((etat * cosi) + (etai * cost))
+            rp = ((etai * cosi) - (etat * cost))/ ((etai * cosi) + (etat * cost))
             kr = (rs * rs + rp * rp)/2
             return kr
     def pow(self,other):
         return Vector(pow(self.x,other),pow(self.y,other),pow(self.z,other))
+    def multi(self,other):
+        return Vector(self.x * other.x, self.y * other.y, self.z * other.z)
 
 if __name__=="__main__":
     vec1 = Vector(0.25,0.25,0.25)
@@ -111,4 +120,5 @@ if __name__=="__main__":
     print(vec1.cross(vec2))
     #NORM - UNIT VECTOR
     print(vec1.norm())
+    
 
